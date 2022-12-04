@@ -4,6 +4,9 @@ import sys
 from aocd import data
 from aocd import submit
 from itertools import zip_longest
+import string
+
+letters = ' ' + string.ascii_lowercase + string.ascii_uppercase
 
 testdata = '''vJrwpWtwJgWrhcsFMMfFFhFp
 jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL
@@ -24,11 +27,7 @@ def part1(mydata):
   lines = mydata.splitlines()
   for line in lines:
     l = list(set(line[:len(line)//2]) & set(line[-len(line)//2:]))
-    v = ord(l[0])
-    if v > 96:
-      total += v - 96
-    else:
-      total += v - 38
+    total += letters.index(l[0])
   return(total)
 
 def part2(mydata):
@@ -36,11 +35,7 @@ def part2(mydata):
   lines = mydata.splitlines()
   for line in grouper(lines, 3, ""):
     l = list(set(line[0]) & set(line[1]) & set(line[2]))
-    v = ord(l[0])
-    if v > 96:
-      total += v - 96
-    else:
-      total += v - 38
+    total += letters.index(l[0])
   return(total)
 
 if __name__ == "__main__":
