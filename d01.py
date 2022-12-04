@@ -3,6 +3,7 @@
 import sys
 from aocd import data
 from aocd import submit
+import re
 
 testdata = '''1000
 2000
@@ -17,36 +18,25 @@ testdata = '''1000
 8000
 9000
 
-10000
-
-'''
+10000'''
 test1 = 24000
 test2 = 45000
 
 def part1(rawdata):
   calories = []
-  total = 0
-  lines = rawdata.splitlines()
-  for i in lines:
-    if i == '': 
-      calories.append(total)
-      total = 0
-    else:
-      total += int(i)
-  calories.sort(reverse=True)
-  return(calories[0])
+  backpacks = rawdata.split('\n\n')
+  for p in backpacks:
+    calories.append(sum([int(x) for x in re.findall(r'\d+', p)]))
+  return(max(calories))
+
 def part2(rawdata):
-  total = 0
   calories = []
-  lines = rawdata.splitlines()
-  for i in lines:
-    if i == '': 
-      calories.append(total)
-      total = 0
-    else:
-      total += int(i)
+  backpacks = rawdata.split('\n\n')
+  for p in backpacks:
+    calories.append(sum([int(x) for x in re.findall(r'\d+', p)]))
+  calories.sort()
   return(sum(calories[-3:]))
-  
+
 if __name__ == "__main__":
   if len(sys.argv) > 1:
     if sys.argv[1] == 'test':
