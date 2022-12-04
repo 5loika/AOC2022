@@ -46,9 +46,8 @@ def part2(rawdata):
     else:
       total += int(i)
   return(sum(calories[-3:]))
+  
 if __name__ == "__main__":
-  expect1 = None
-  expect2 = None
   if len(sys.argv) > 1:
     if sys.argv[1] == 'test':
       result1 = part1(testdata)
@@ -66,6 +65,11 @@ if __name__ == "__main__":
         submit(part1(data), part='a')
       elif sys.argv[2] =='b':
         submit(part2(data), part='b') 
+    elif sys.argv[1] == 'run':
+      if sys.argv[2] == 'a':
+        print('Part 1: ',part1(data))
+      elif sys.argv[2] =='b':
+        print('Part 2: ',part2(data))  
   else:
     print('Part 1: ',part1(data))
     print('Part 2: ',part2(data))
