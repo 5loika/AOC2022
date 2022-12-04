@@ -1,3 +1,5 @@
+#!/bin/python3
+
 import sys
 from aocd import data
 from aocd import submit
@@ -56,9 +58,9 @@ if __name__ == "__main__":
         print('Test 2 - Fail:', result2)
     elif sys.argv[1] == 'submit':
       if sys.argv[2] == 'a':
-        submit(part1(data))
-      if sys.argv[2] =='b':
-        submit(part2(data))   
+        submit(part1(data), part='a')
+      elif sys.argv[2] =='b':
+        submit(part2(data), part='b')   
   else:
     print('Part 1: ',part1(data))
     print('Part 2: ',part2(data))

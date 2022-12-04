@@ -1,3 +1,5 @@
+#!/bin/python3
+
 import sys
 from aocd import data
 from aocd import submit
@@ -41,19 +43,21 @@ if __name__ == "__main__":
   expect2 = None
   if len(sys.argv) > 1:
     if sys.argv[1] == 'test':
-      if test1 == part1(testdata):
-        print('Test 1 - Pass:', test1)
+      result1 = part1(testdata)
+      if test1 == result1:
+        print('Test 1 - Pass:', result1)
       else:
-        print('Test 1 - Fail:', part1(testdata))
-      if test2 == part2(testdata):
-        print('Test 2 - Pass:', test2)
+        print('Test 1 - Fail:', result1)
+      result2 = part2(testdata)
+      if test2 == result2:
+        print('Test 2 - Pass:', result2)
       else:
-        print('Test 2 - Fail:', part2(testdata))
+        print('Test 2 - Fail:', result2)
     elif sys.argv[1] == 'submit':
       if sys.argv[2] == 'a':
-        submit(part1(data))
-      if sys.argv[2] =='b':
-        submit(part2(data))   
+        submit(part1(data), part='a')
+      elif sys.argv[2] =='b':
+        submit(part2(data), part='b')
   else:
     print('Part 1: ',part1(data))
     print('Part 2: ',part2(data))
