@@ -4,8 +4,7 @@ import sys
 from aocd import data
 from aocd import submit
 
-testdata = '''
-'''
+testdata = '''### INSERT TEST INPUT HERE ###'''
 test1 = None
 test2 = None
 
