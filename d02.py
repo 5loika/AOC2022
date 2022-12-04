@@ -2,6 +2,12 @@ import sys
 from aocd import data
 from aocd import submit
 
+testdata = '''A Y
+B X
+C Z'''
+test1 = 15
+test2 = 12
+
 def part1(rawdata):
   # WIN  AY =  8 | BZ = 9 | CX = 7  
   # DRAW AX =  4 | BY = 5 | CZ = 6 
@@ -35,16 +41,14 @@ if __name__ == "__main__":
   expect2 = None
   if len(sys.argv) > 1:
     if sys.argv[1] == 'test':
-      with open(__file__.replace('.py','_test.txt'), "r") as f:
-        test = f.read()
-      if len(sys.argv) > 2:
-        expect1 = sys.argv[2]
-      if len(sys.argv) > 3:
-        expect2 = sys.argv[3]
-      test1 = part1(test)
-      print('Test 1 - Expected: ',expect1,'\tReturned: ', test1)
-      test2 = part2(test)
-      print('Test 2 - Expected: ',expect2,'\tReturned: ', test2)
+      if test1 == part1(testdata):
+        print('Test 1 - Pass:', test1)
+      else:
+        print('Test 1 - Fail:', part1(testdata))
+      if test2 == part2(testdata):
+        print('Test 2 - Pass:', test2)
+      else:
+        print('Test 2 - Fail:', part2(testdata))
     elif sys.argv[1] == 'submit':
       if sys.argv[2] == 'a':
         submit(part1(data))

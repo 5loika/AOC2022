@@ -1,6 +1,24 @@
 import sys
 from aocd import data
 from aocd import submit
+
+testdata = '''1000
+2000
+3000
+
+4000
+
+5000
+6000
+
+7000
+8000
+9000
+
+10000'''
+test1 = 24000
+test2 = 45000
+
 def part1(rawdata):
   calories = []
   total = 0
@@ -30,16 +48,15 @@ if __name__ == "__main__":
   expect2 = None
   if len(sys.argv) > 1:
     if sys.argv[1] == 'test':
-      with open(__file__.replace('.py','_test.txt'), "r") as f:
-        test = f.read()
-      if len(sys.argv) > 2:
-        expect1 = sys.argv[2]
-      if len(sys.argv) > 3:
-        expect2 = sys.argv[3]
-      test1 = part1(test)
-      print('Test 1 - Expected: ',expect1,'\tReturned: ', test1)
-      test2 = part2(test)
-      print('Test 2 - Expected: ',expect2,'\tReturned: ', test2)
+      if test1 == part1(testdata):
+        print('Test 1 - passsed:', test1)
+      else:
+        print('Test 1 - failed:',part1(testdata))
+      test2 = part2(testdata)
+      if test2 == part2(testdata):
+        print('Test 2 - passed:', test2)
+      else:
+        print('Test 2 - failed:', part2(testdata))
     elif sys.argv[1] == 'submit':
       if sys.argv[2] == 'a':
         submit(part1(data))
