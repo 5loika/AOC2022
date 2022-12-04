@@ -1,50 +1,33 @@
 import sys
 from aocd import data
 from aocd import submit
+
 def part1(rawdata):
-  # A = Rock(1), B = Paper(2), C = Scissor(3)
-  # X = Rock(1), Y = Paper(2), Z = Scissor(3)
-  # Win = +6, Draw = +3, Lose = + 0 
   # WIN  AY =  8 | BZ = 9 | CX = 7  
   # DRAW AX =  4 | BY = 5 | CZ = 6 
   # LOSE AZ =  3 | BX = 1 | CY = 2
+  # Build dictionary with all possible results
+  scores = {"A X": 4, "A Y": 8, "A Z": 3, 
+            "B X": 1, "B Y": 5, "B Z": 9,
+            "C X": 7, "C Y": 2, "C Z": 6}
   score = 0
   lines = rawdata.splitlines()
   for line in lines:
-    elf = line[0]
-    me = line[2]
-    if elf == 'A' and me == 'X': score += 4
-    if elf == 'A' and me == 'Y': score += 8
-    if elf == 'A' and me == 'Z': score += 3
-    if elf == 'B' and me == 'X': score += 1
-    if elf == 'B' and me == 'Y': score += 5
-    if elf == 'B' and me == 'Z': score += 9
-    if elf == 'C' and me == 'X': score += 7
-    if elf == 'C' and me == 'Y': score += 2
-    if elf == 'C' and me == 'Z': score += 6
+    score += scores[line.strip()]
   return(score)
 
 def part2(rawdata):
-  # A = Rock, B = Paper, C = Scissor
-  # X = Win(+6), Y = Draw(+3), Z = Lose(+0)
-  # Rock = 1, Paper = 2, Scissor = 3 
   # LOSE AX = 3 | BX = 1 | CX = 2  
   # DRAW AY = 4 | BY = 5 | CY = 6 
   # WIN  AZ = 8 | BZ = 9 | CZ = 7
+  # Build dictionary with all possible results
+  scores = {"A X": 3, "A Y": 4, "A Z": 8, 
+            "B X": 1, "B Y": 5, "B Z": 9,
+            "C X": 2, "C Y": 6, "C Z": 7}
   score = 0
   lines = rawdata.splitlines()
   for line in lines:
-    elf = line[0]
-    me = line[2]
-    if elf == 'A' and me == 'X': score += 3
-    if elf == 'A' and me == 'Y': score += 4
-    if elf == 'A' and me == 'Z': score += 8
-    if elf == 'B' and me == 'X': score += 1
-    if elf == 'B' and me == 'Y': score += 5
-    if elf == 'B' and me == 'Z': score += 9
-    if elf == 'C' and me == 'X': score += 2
-    if elf == 'C' and me == 'Y': score += 6
-    if elf == 'C' and me == 'Z': score += 7
+    score += scores[line.strip()]
   return(score)  
 
 if __name__ == "__main__":
