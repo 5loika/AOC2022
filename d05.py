@@ -4,6 +4,7 @@ import sys
 from aocd import data
 from aocd import submit
 import re
+import copy
 
 testdata = '''    [D]    
 [N] [C]    
@@ -18,24 +19,39 @@ test1 = 'CMZ'
 test2 = 'MCD'
 
 def part1(mydata):
-  #stacks = [['Z','N'],['M','C','D'],['P']]
-  stacks = [['N','C','R','T','M','Z','P'],['D','N','T','S','B','Z'],['M','H','Q','R','F','C','T','G'],['G','R','Z'],['Z','N','R','H'],['F','H','S','W','P','Z','L','D'],['W','D','Z','R','C','G','M'],['S','J','F','L','H','W','Z','Q'],['S','Q','P','W','N']]
+  stacks =[]
+  tmp = []
   indata = mydata.split('\n\n')
+  layout = indata[0].splitlines()
+  cols = max([int(x) for x in re.findall(r'\d+', layout[len(layout)-1])])
+  for col in range(1,4*cols,4):
+    for row in range(len(layout)-2,-1,-1):
+      if str.isalpha(layout[row][col]):
+        tmp.append(layout[row][col])
+    stacks.append(copy.deepcopy(tmp))
+    tmp.clear()
   lines = indata[1].splitlines()
   for line in lines:
     count,src,dst = [int(x) for x in re.findall(r'\d+', line)]
     for i in range(count):
       stacks[dst-1].append(stacks[src-1].pop())
   tops = ''
-  for i in range(9):
+  for i in range(cols):
     tops += stacks[i][-1]
   return(tops)
 
 def part2(mydata):
-  #stacks = [['Z','N'],['M','C','D'],['P']]
-  stacks = [['N','C','R','T','M','Z','P'],['D','N','T','S','B','Z'],['M','H','Q','R','F','C','T','G'],['G','R','Z'],['Z','N','R','H'],['F','H','S','W','P','Z','L','D'],['W','D','Z','R','C','G','M'],['S','J','F','L','H','W','Z','Q'],['S','Q','P','W','N']]
+  stacks =[]
   tmp = []
   indata = mydata.split('\n\n')
+  layout = indata[0].splitlines()
+  cols = max([int(x) for x in re.findall(r'\d+', layout[len(layout)-1])])
+  for col in range(1,4*cols,4):
+    for row in range(len(layout)-2,-1,-1):
+      if str.isalpha(layout[row][col]):
+        tmp.append(layout[row][col])
+    stacks.append(copy.deepcopy(tmp))
+    tmp.clear()
   lines = indata[1].splitlines()
   for line in lines:
     count,src,dst = [int(x) for x in re.findall(r'\d+', line)]
@@ -44,7 +60,7 @@ def part2(mydata):
     for j in range(count):
       stacks[dst-1].append(tmp.pop())
   tops = ''
-  for i in range(9):
+  for i in range(cols):
     tops += stacks[i][-1]
   return(tops)
     
