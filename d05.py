@@ -28,11 +28,11 @@ def part1(mydata):
     for row in range(len(layout)-2,-1,-1):
       if str.isalpha(layout[row][col]):
         tmp.append(layout[row][col])
-    stacks.append(copy.deepcopy(tmp))
+    stacks.append(copy.copy(tmp))
     tmp.clear()
-  lines = indata[1].splitlines()
-  for line in lines:
-    count,src,dst = [int(x) for x in re.findall(r'\d+', line)]
+  moves = indata[1].splitlines()
+  for move in moves:
+    count,src,dst = [int(x) for x in re.findall(r'\d+', move)]
     for i in range(count):
       stacks[dst-1].append(stacks[src-1].pop())
   tops = ''
@@ -50,11 +50,11 @@ def part2(mydata):
     for row in range(len(layout)-2,-1,-1):
       if str.isalpha(layout[row][col]):
         tmp.append(layout[row][col])
-    stacks.append(copy.deepcopy(tmp))
+    stacks.append(copy.copy(tmp))
     tmp.clear()
-  lines = indata[1].splitlines()
-  for line in lines:
-    count,src,dst = [int(x) for x in re.findall(r'\d+', line)]
+  moves = indata[1].splitlines()
+  for move in moves:
+    count,src,dst = [int(x) for x in re.findall(r'\d+', move)]
     for i in range(count):
       tmp.append(stacks[src-1].pop())
     for j in range(count):
