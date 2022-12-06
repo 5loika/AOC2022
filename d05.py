@@ -4,7 +4,6 @@ import sys
 from aocd import data
 from aocd import submit
 import re
-import copy
 
 testdata = '''    [D]    
 [N] [C]    
@@ -28,7 +27,7 @@ def part1(mydata):
     for row in range(len(layout)-2,-1,-1):
       if str.isalpha(layout[row][col]):
         tmp.append(layout[row][col])
-    stacks.append(copy.copy(tmp))
+    stacks.append(tmp.copy())
     tmp.clear()
   moves = indata[1].splitlines()
   for move in moves:
@@ -50,7 +49,7 @@ def part2(mydata):
     for row in range(len(layout)-2,-1,-1):
       if str.isalpha(layout[row][col]):
         tmp.append(layout[row][col])
-    stacks.append(copy.copy(tmp))
+    stacks.append(tmp.copy())
     tmp.clear()
   moves = indata[1].splitlines()
   for move in moves:
