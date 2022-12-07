@@ -3,7 +3,6 @@
 import sys
 from aocd import data
 from aocd import submit
-from collections import deque 
 
 testdata = '''zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw'''
 test1 = 11
