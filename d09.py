@@ -15,46 +15,85 @@ D 1
 L 5
 R 2"""
 test1 = 13
-test2 = None
+test2 = 1
 
+
+from collections import defaultdict
+from collections import deque
 
 def part1(mydata):
     visited = defaultdict(int)
     moves = deque([])
-    head = [0, 0]
-    tail = [0, 0]
-    visited[tuple(tail)] = 1
+    rope = [[0, 0], [0,0]]
+    head = len(rope) - 1
+    tail = 0
+    x = 0
+    y = 1
+    visited[tuple(rope[tail])] = 1
     for l in mydata.splitlines():
         for c in range(int(l[2:])):
             moves.append(l[0])
     while len(moves) > 0:
-        dir = [0, 0]
         if moves[0] == "R":
-            head[0] += 1
+            rope[head][x] += 1
         elif moves[0] == "L":
-            head[0] -= 1
+            rope[head][x] -= 1
         elif moves[0] == "U":
-            head[1] += 1
+            rope[head][y] += 1
         elif moves[0] == "D":
-            head[1] -= 1
+            rope[head][y] -= 1
         else:
             return None
-        if abs(head[0] - tail[0]) > 1 or abs(head[1] - tail[1]) > 1:
-            if head[0] > tail[0]:
-                tail[0] += 1
-            elif head[0] < tail[0]:
-                tail[0] -= 1
-            if head[1] > tail[1]:
-                tail[1] += 1
-            elif head[1] < tail[1]:
-                tail[1] -= 1
-        visited[tuple(tail)] = 1
+        for i in range(len(rope)-1,0,-1):
+            if abs(rope[i-1][x] - rope[i][x]) > 1 or abs(rope[i-1][y] - rope[i][y]) > 1:
+                if rope[i][x] > rope[i-1][x]:
+                    rope[i-1][x] += 1
+                elif rope[i][x] < rope[i-1][x]:
+                    rope[i-1][x] -= 1
+                if rope[i][y] > rope[i-1][y]:
+                    rope[i-1][y] += 1
+                elif rope[i][y] < rope[i-1][y]:
+                    rope[i-1][y] -= 1
+        visited[tuple(rope[tail])] = 1
         moves.popleft()
     return len(visited.keys())
 
-
 def part2(mydata):
-    return None
+    visited = defaultdict(int)
+    moves = deque([])
+    x = 0
+    y = 1
+    rope = [[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0]]
+    head = len(rope) - 1
+    tail = 0
+    visited[tuple(rope[tail])] = 1
+    for l in mydata.splitlines():
+        for c in range(int(l[2:])):
+            moves.append(l[0])
+    while len(moves) > 0:
+        if moves[0] == "R":
+            rope[head][x] += 1
+        elif moves[0] == "L":
+            rope[head][x] -= 1
+        elif moves[0] == "U":
+            rope[head][y] += 1
+        elif moves[0] == "D":
+            rope[head][y] -= 1
+        else:
+            return None
+        for i in range(len(rope)-1,0,-1):
+            if abs(rope[i-1][x] - rope[i][x]) > 1 or abs(rope[i-1][y] - rope[i][y]) > 1:
+                if rope[i][x] > rope[i-1][x]:
+                    rope[i-1][x] += 1
+                elif rope[i][x] < rope[i-1][x]:
+                    rope[i-1][x] -= 1
+                if rope[i][y] > rope[i-1][y]:
+                    rope[i-1][y] += 1
+                elif rope[i][y] < rope[i-1][y]:
+                    rope[i-1][y] -= 1
+        visited[tuple(rope[tail])] = 1
+        moves.popleft()
+    return len(visited.keys())
 
 
 if __name__ == "__main__":
