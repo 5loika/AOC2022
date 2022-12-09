@@ -131,17 +131,21 @@ def part2(mydata):
         NotImplemented
       else:
         worksize += int(words[0])
-  # for n in range(maxdepth-1,0,-1):
-  #   for k in dirsize.keys():
-  #     if k.count('/') == n:
-  #       for l in dirsize.keys():
-  #         if l != k:
-  #           if l.find(k) == 0:
-  #             dirsize[k] = dirsize[k] + dirsize[l]
-
+  for n in range(maxdepth-1):
+    for k in dirsize.keys():
+      if k.count('/') == n:
+        for l in dirsize.keys():
+          if l != k:
+            if l.find(k) == 0:
+              dirsize[k] = dirsize[k] + dirsize[l]
+  maxspace = 70000000
+  freespace = maxspace - dirsize['/']
+  needspace = 30000000 - freespace
+  candidates = []
   for i in dirsize.keys():
-    print(i,dirsize[i])
-  return(None)    
+    if dirsize[i] > needspace:
+      candidates.append(dirsize[i])
+  return(min(candidates))    
 
 if __name__ == "__main__":
   if len(sys.argv) > 1:
