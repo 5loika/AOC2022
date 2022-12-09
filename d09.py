@@ -21,27 +21,27 @@ test2 = None
 def part1(mydata):
     visited = defaultdict(int)
     moves = deque([])
-    head = ([0,0])
-    tail = ([0,0])
+    head = [0, 0]
+    tail = [0, 0]
     visited[tuple(tail)] = 1
     for l in mydata.splitlines():
         for c in range(int(l[2:])):
             moves.append(l[0])
     while len(moves) > 0:
-        dir = ([0,0])
-        if moves[0] == 'R':
+        dir = [0, 0]
+        if moves[0] == "R":
             head[0] += 1
-        elif moves[0] == 'L':
+        elif moves[0] == "L":
             head[0] -= 1
-        elif moves[0] == 'U':
+        elif moves[0] == "U":
             head[1] += 1
-        elif moves[0] == 'D':
+        elif moves[0] == "D":
             head[1] -= 1
         else:
-            return(None)
+            return None
         if abs(head[0] - tail[0]) > 1 or abs(head[1] - tail[1]) > 1:
             if head[0] > tail[0]:
-                tail[0] += 1    
+                tail[0] += 1
             elif head[0] < tail[0]:
                 tail[0] -= 1
             if head[1] > tail[1]:
@@ -50,7 +50,7 @@ def part1(mydata):
                 tail[1] -= 1
         visited[tuple(tail)] = 1
         moves.popleft()
-    return(len(visited.keys()))
+    return len(visited.keys())
 
 
 def part2(mydata):
