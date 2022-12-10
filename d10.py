@@ -156,17 +156,17 @@ test2 = None
 
 
 def part1(mydata):
-    pc = 1
+    pc = 0
     x = 1
     signals = []
     checkcycle = 20
     for l in mydata.splitlines():
         op = l[0:4]
         if op == "noop":
-            pc += 1
             if pc >= checkcycle:
                 signals.append(pc * x)
                 checkcycle += 40
+            pc += 1
         elif op == "addx":
             v = int(l[4:])
             pc += 1
@@ -174,10 +174,10 @@ def part1(mydata):
                 signals.append(pc * x)
                 checkcycle += 40
             pc += 1
-            x += v
             if pc >= checkcycle:
                 signals.append(pc * x)
                 checkcycle += 40
+            x += v
     return sum(signals)
 
 
