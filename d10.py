@@ -162,53 +162,54 @@ def part1(mydata):
     checkcycle = 20
     for l in mydata.splitlines():
         op = l[0:4]
-        if op == 'noop':
+        if op == "noop":
             pc += 1
             if pc >= checkcycle:
-                signals.append(pc*x)
+                signals.append(pc * x)
                 checkcycle += 40
-        elif op == 'addx':
+        elif op == "addx":
             v = int(l[4:])
             pc += 1
             if pc >= checkcycle:
-                signals.append(pc*x)
+                signals.append(pc * x)
                 checkcycle += 40
             pc += 1
             x += v
             if pc >= checkcycle:
-                signals.append(pc*x)
+                signals.append(pc * x)
                 checkcycle += 40
-    return(sum(signals))
+    return sum(signals)
+
 
 def part2(mydata):
     pc = 0
     x = 1
-    display = ''
+    display = ""
     for l in mydata.splitlines():
-        sprite = range(x-1,x+2)
+        sprite = range(x - 1, x + 2)
         op = l[0:4]
-        if op == 'noop':
-            if (pc%40) in sprite:
-                display += '#'
+        if op == "noop":
+            if (pc % 40) in sprite:
+                display += "#"
             else:
-                display += ' '
+                display += " "
             pc += 1
-        elif op == 'addx':
+        elif op == "addx":
             v = int(l[4:])
-            if (pc%40) in sprite:
-                display += '#'
+            if (pc % 40) in sprite:
+                display += "#"
             else:
-                display += ' '
+                display += " "
             pc += 1
-            if (pc%40) in sprite:
-                display += '#'
+            if (pc % 40) in sprite:
+                display += "#"
             else:
-                display += ' '
+                display += " "
             pc += 1
             x += v
-    for i in range(0,240,40):
-        print(display[i:i+40])
-    return(None)
+    for i in range(0, 240, 40):
+        print(display[i : i + 40])
+    return None
 
 
 if __name__ == "__main__":
