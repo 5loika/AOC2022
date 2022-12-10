@@ -152,7 +152,13 @@ noop
 noop
 noop"""
 test1 = 13140
-test2 = "RBPARAGF"
+test2 = "\
+##..##..##..##..##..##..##..##..##..##..\
+###...###...###...###...###...###...###.\
+####....####....####....####....####....\
+#####.....#####.....#####.....#####.....\
+######......######......######......####\
+#######.......#######.......#######....."
 
 
 def part1(mydata):
@@ -190,27 +196,26 @@ def part2(mydata):
         op = l[0:4]
         if op == "noop":
             if (pc % 40) in sprite:
-                display += "Ø"
+                display += "#"
             else:
-                display += " "
+                display += "."
             pc += 1
         elif op == "addx":
             v = int(l[4:])
             if (pc % 40) in sprite:
-                display += "Ø"
+                display += "#"
             else:
-                display += " "
+                display += "."
             pc += 1
             if (pc % 40) in sprite:
-                display += "Ø"
+                display += "#"
             else:
-                display += " "
+                display += "."
             pc += 1
             x += v
     for i in range(0, 240, 40):
         print(display[i : i + 40])
-    str = ''
-    return "RBPARAGF"
+    return(display)
 
 
 if __name__ == "__main__":
