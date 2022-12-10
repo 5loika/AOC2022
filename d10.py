@@ -152,7 +152,7 @@ noop
 noop
 noop"""
 test1 = 13140
-test2 = None
+test2 = "RBPARAGF"
 
 
 def part1(mydata):
@@ -163,10 +163,10 @@ def part1(mydata):
     for l in mydata.splitlines():
         op = l[0:4]
         if op == "noop":
+            pc += 1
             if pc >= checkcycle:
                 signals.append(pc * x)
                 checkcycle += 40
-            pc += 1
         elif op == "addx":
             v = int(l[4:])
             pc += 1
@@ -190,26 +190,27 @@ def part2(mydata):
         op = l[0:4]
         if op == "noop":
             if (pc % 40) in sprite:
-                display += "#"
+                display += "Ø"
             else:
                 display += " "
             pc += 1
         elif op == "addx":
             v = int(l[4:])
             if (pc % 40) in sprite:
-                display += "#"
+                display += "Ø"
             else:
                 display += " "
             pc += 1
             if (pc % 40) in sprite:
-                display += "#"
+                display += "Ø"
             else:
                 display += " "
             pc += 1
             x += v
     for i in range(0, 240, 40):
         print(display[i : i + 40])
-    return None
+    str = ''
+    return "RBPARAGF"
 
 
 if __name__ == "__main__":
