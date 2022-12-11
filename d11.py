@@ -4,6 +4,7 @@ import sys
 from aocd import data
 from aocd import submit
 from collections import deque
+import re
 
 testdata = """Monkey 0:
   Starting items: 79, 98
@@ -32,8 +33,9 @@ Monkey 3:
   Test: divisible by 17
     If true: throw to monkey 0
     If false: throw to monkey 1"""
+
 test1 = 10605
-test2 = None
+test2 = 2713310158
 
 def updateitem(item,oper,n):
     if oper == "plus":
@@ -47,50 +49,36 @@ def part1(mydata):
     monkeys = []
     operations = []
     throw = []
-
-    # TEST INPUT
-    # monkeys.append(deque([79, 98]))
-    # operations.append(["mult",19])
-    # throw.append([23,2,3])
-    # monkeys.append(deque([54, 65, 75, 74]))
-    # operations.append(["plus",6])
-    # throw.append([19,2,0])
-    # monkeys.append(deque([79, 60, 97]))
-    # operations.append(["square",1])
-    # throw.append([13,1,3])
-    # monkeys.append(deque([74]))
-    # operations.append(["plus",3])
-    # throw.append([17,0,1])
-    # inspected = [0,0,0,0]
-    # END TEST INPUT
-
-    # PUZZLE INPUT
-    monkeys.append(deque([97, 81, 57, 57, 91, 61]))
-    operations.append(["mult",7])
-    throw.append([11,5,6])
-    monkeys.append(deque([88, 62, 68, 90]))
-    operations.append(["mult",17])
-    throw.append([19,4,2])
-    monkeys.append(deque([74, 87]))
-    operations.append(["plus",2])
-    throw.append([5,7,4])
-    monkeys.append(deque([53, 81, 60, 87, 90, 99, 75]))
-    operations.append(["plus",1])
-    throw.append([2,2,1])
-    monkeys.append(deque([57]))
-    operations.append(["plus",6])
-    throw.append([13,7,0])
-    monkeys.append(deque([54, 84, 91, 55, 59, 72, 75, 70]))
-    operations.append(["square",1])
-    throw.append([7,6,3])
-    monkeys.append(deque([95, 79, 79, 68, 78]))
-    operations.append(["plus",3])
-    throw.append([3,1,3])
-    monkeys.append(deque([61, 97, 67]))
-    operations.append(["plus",4])
-    throw.append([17,0,5])
-    inspected = [0, 0, 0, 0, 0, 0, 0, 0]
-    # END PUZZLE INPUT
+    inspected = []
+    monkeylist = mydata.split("\n\n")
+    for m in monkeylist:
+        testdiv = 0
+        iftrue = 0
+        iffalse = 0
+        for n in m.split("\n"):
+            if n.find("Starting items:") > 0:
+                monkeys.append(deque(([int(x) for x in re.findall("\d+", n)])))
+            elif n.find("Operation:") > 0:
+                if n.find("*") > 0:
+                    if n.find("old * old") > 0:
+                        operations.append(["square",1])
+                    else:
+                        l = re.findall("\d+",n)
+                        operations.append(["mult",int(l[0])])
+                elif n.find("+") > 0:
+                    l = re.findall("\d+",n)
+                    operations.append(["plus",int(l[0])])
+            elif n.find("Test:") > 0:
+                l = re.findall("\d+",n)
+                testdiv = int(l[0])
+            elif n.find("true:") > 0:
+                l = re.findall("\d+",n)
+                iftrue = int(l[0])
+            elif n.find("false:") > 0:
+                l = re.findall("\d+",n)
+                iffalse = int(l[0])
+                throw.append([testdiv,iftrue,iffalse])
+        inspected.append(0)        
 
     for i in range(20):
         for j in range(len(monkeys)):
@@ -111,50 +99,39 @@ def part2(mydata):
     monkeys = []
     operations = []
     throw = []
+    inspected = []
+    monkeylist = mydata.split("\n\n")
+    for m in monkeylist:
+        testdiv = 0
+        iftrue = 0
+        iffalse = 0
+        for n in m.split("\n"):
+            if n.find("Starting items:") > 0:
+                monkeys.append(deque(([int(x) for x in re.findall("\d+", n)])))
+            elif n.find("Operation:") > 0:
+                if n.find("*") > 0:
+                    if n.find("old * old") > 0:
+                        operations.append(["square",1])
+                    else:
+                        l = re.findall("\d+",n)
+                        operations.append(["mult",int(l[0])])
+                elif n.find("+") > 0:
+                    l = re.findall("\d+",n)
+                    operations.append(["plus",int(l[0])])
+            elif n.find("Test:") > 0:
+                l = re.findall("\d+",n)
+                testdiv = int(l[0])
+            elif n.find("true:") > 0:
+                l = re.findall("\d+",n)
+                iftrue = int(l[0])
+            elif n.find("false:") > 0:
+                l = re.findall("\d+",n)
+                iffalse = int(l[0])
+                throw.append([testdiv,iftrue,iffalse])
+        inspected.append(0)         
 
-    # TEST INPUT
-    # monkeys.append(deque([79, 98]))
-    # operations.append(["mult",19])
-    # throw.append([23,2,3])
-    # monkeys.append(deque([54, 65, 75, 74]))
-    # operations.append(["plus",6])
-    # throw.append([19,2,0])
-    # monkeys.append(deque([79, 60, 97]))
-    # operations.append(["square",1])
-    # throw.append([13,1,3])
-    # monkeys.append(deque([74]))
-    # operations.append(["plus",3])
-    # throw.append([17,0,1])
-    # inspected = [0,0,0,0]
 
-    # PUZZLE INPUT
-    monkeys.append(deque([97, 81, 57, 57, 91, 61]))
-    operations.append(["mult",7])
-    throw.append([11,5,6])
-    monkeys.append(deque([88, 62, 68, 90]))
-    operations.append(["mult",17])
-    throw.append([19,4,2])
-    monkeys.append(deque([74, 87]))
-    operations.append(["plus",2])
-    throw.append([5,7,4])
-    monkeys.append(deque([53, 81, 60, 87, 90, 99, 75]))
-    operations.append(["plus",1])
-    throw.append([2,2,1])
-    monkeys.append(deque([57]))
-    operations.append(["plus",6])
-    throw.append([13,7,0])
-    monkeys.append(deque([54, 84, 91, 55, 59, 72, 75, 70]))
-    operations.append(["square",1])
-    throw.append([7,6,3])
-    monkeys.append(deque([95, 79, 79, 68, 78]))
-    operations.append(["plus",3])
-    throw.append([3,1,3])
-    monkeys.append(deque([61, 97, 67]))
-    operations.append(["plus",4])
-    throw.append([17,0,5])
-    inspected = [0, 0, 0, 0, 0, 0, 0, 0]
-
-    throwlcm = 1
+    throwlcm = 1 # Calculate LCM of test divisors to reduce worry
     for n in range(len(throw)):
         throwlcm *= throw[n][0]
 
