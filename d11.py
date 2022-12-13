@@ -141,7 +141,7 @@ def part2(mydata):
                 item = monkeys[j].popleft()
                 inspected[j] += 1
                 item = updateitem(item,operations[j][0],operations[j][1])
-                if item > throwlcm: item = item % throwlcm
+                item = item % throwlcm
                 if (item % throw[j][0]) == 0:
                     monkeys[throw[j][1]].append(item)
                 else:
