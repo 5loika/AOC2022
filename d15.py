@@ -50,24 +50,22 @@ def part1(mydata):
 
 def part2(mydata):
     minr = 0
-    maxr = 21
-    # maxr = 4000001
+    # maxr = 21
+    maxr = 4000001
     rowrange = range(minr,maxr)
     minc = 0
-    maxc = 21
-    # maxc = 4000001
+    # maxc = 21
+    maxc = 4000001
     colrange = range(minc,maxc)
     mult = 4000000
-    answer = None
     sensors = []
-    borders = []
-    sensorset = set()
+    borders = {}
     lines = mydata.splitlines()
     for line in lines:
-        sensorset.clear()
         Sc, Sr, Bc, Br = [int(x) for x in re.findall(r"[-]?\d+", line)]
         distance = dist(Sc,Sr,Bc,Br)
         sensors.append([Sc,Sr,distance])
+        print(sensors[-1])
         border = dist(Sr, Sc, Br, Bc) + 1
         for x in range (-border, border):
             dc = border - abs(x)
@@ -76,27 +74,19 @@ def part2(mydata):
             c2 = Sc - dc
             if r in rowrange:
                 if c1 in colrange:
-                    borders.append((r,c1))
+                    borders[(r,c1)] = True
                 if c2 in colrange:
-                    borders.append((r,c2))
-        while len(borders) > 1:
-            nextborders = []
-            for q in borders:
-                stillgood = True
-                for s in sensors:
-                    if dist(q[0],q[1],s[0],s[1]) <= s[2]:
-                        stillgood = False
-                        break
-                if stillgood:
-                    nextborders.append(q)
-            borders = []
-            for p in nextborders:
-                borders.append(p)
-            print(borders)
-
-
-
-    print(answer)
+                    borders[(r,c2)] = True
+            for q in borders.keys():
+                if borders[q]:
+                    for s in sensors:
+                        if dist(q[0],q[1],s[0],s[1]) <= s[2]:
+                            borders[q] = False
+                            break
+        print(len(borders))
+    for p in borders:
+         if borders[p]:
+             return(p[0]*mult+p[1])
 
 def part3(mydata):
     minr = 0
