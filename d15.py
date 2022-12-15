@@ -50,28 +50,53 @@ def part1(mydata):
 
 def part2(mydata):
     minr = 0
-    # maxr = 21
-    maxr = 4000001
+    maxr = 21
+    # maxr = 4000001
+    rowrange = range(minr,maxr)
     minc = 0
-    # maxc = 21
-    maxc = 4000001
+    maxc = 21
+    # maxc = 4000001
+    colrange = range(minc,maxc)
     mult = 4000000
+    answer = None
     sensors = []
+    borders = []
+    sensorset = set()
     lines = mydata.splitlines()
     for line in lines:
+        sensorset.clear()
         Sc, Sr, Bc, Br = [int(x) for x in re.findall(r"[-]?\d+", line)]
-        distance = dist(Sr, Sc, Br, Bc)
-        sensors.append([Sr, Sc, distance])
-    for r in range(minr, maxr):
-        if r % 1000 == 0:
-            print('.',end='')
-        for c in range(minc, maxc):
-            for s in sensors:
-                if dist(r,c,s[0],s[1]) <= s[2]:
-                    break
-            else:
-                return(c*mult+r)
+        distance = dist(Sc,Sr,Bc,Br)
+        sensors.append([Sc,Sr,distance])
+        border = dist(Sr, Sc, Br, Bc) + 1
+        for x in range (-border, border):
+            dc = border - abs(x)
+            r = Sr - x
+            c1 = Sc + dc
+            c2 = Sc - dc
+            if r in rowrange:
+                if c1 in colrange:
+                    borders.append((r,c1))
+                if c2 in colrange:
+                    borders.append((r,c2))
+        while len(borders) > 1:
+            nextborders = []
+            for q in borders:
+                stillgood = True
+                for s in sensors:
+                    if dist(q[0],q[1],s[0],s[1]) <= s[2]:
+                        stillgood = False
+                        break
+                if stillgood:
+                    nextborders.append(q)
+            borders = []
+            for p in nextborders:
+                borders.append(p)
+            print(borders)
 
+
+
+    print(answer)
 
 def part3(mydata):
     minr = 0
