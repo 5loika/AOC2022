@@ -41,7 +41,7 @@ def part1(mydata):
     count = 0
     while running:
         falling = True
-        sand = [0, 500]
+        sand = [0,500]
         while falling:
             if sand[0] > max_row:
                 running = False
