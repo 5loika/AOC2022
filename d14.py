@@ -41,19 +41,19 @@ def part1(mydata):
     count = 0
     while running:
         falling = True
-        snowflake = [0, 500]
+        sand = [0, 500]
         while falling:
-            if snowflake[0] > max_row:
+            if sand[0] > max_row:
                 running = False
                 falling = False
-            elif cavemap.get((snowflake[0]+1,snowflake[1])) == None:
-                snowflake = [snowflake[0]+1,snowflake[1]]
-            elif cavemap.get((snowflake[0]+1,snowflake[1]-1)) == None:
-                snowflake = [snowflake[0]+1,snowflake[1]-1]
-            elif cavemap.get((snowflake[0]+1,snowflake[1]+1)) == None:
-                snowflake = [snowflake[0]+1,snowflake[1]+1]
+            elif cavemap.get((sand[0]+1,sand[1])) == None:
+                sand = [sand[0]+1,sand[1]]
+            elif cavemap.get((sand[0]+1,sand[1]-1)) == None:
+                sand = [sand[0]+1,sand[1]-1]
+            elif cavemap.get((sand[0]+1,sand[1]+1)) == None:
+                sand = [sand[0]+1,sand[1]+1]
             else:
-                cavemap[(snowflake[0],snowflake[1])] = '*'
+                cavemap[(sand[0],sand[1])] = '*'
                 count += 1
                 falling = False
     return(count)
@@ -89,23 +89,23 @@ def part2(mydata):
     running = True
     while running:
         falling = True
-        snowflake = [0, 500]
+        sand = [0, 500]
         while falling:
-            if snowflake[0] > max_row:
-                cavemap[(snowflake[0],snowflake[1])] = '*'
+            if sand[0] > max_row:
+                cavemap[(sand[0],sand[1])] = '*'
                 count += 1
                 falling = False
-            elif cavemap.get((snowflake[0]+1,snowflake[1])) == None:
-                snowflake = [snowflake[0]+1,snowflake[1]]
-            elif cavemap.get((snowflake[0]+1,snowflake[1]-1)) == None:
-                snowflake = [snowflake[0]+1,snowflake[1]-1]
-            elif cavemap.get((snowflake[0]+1,snowflake[1]+1)) == None:
-                snowflake = [snowflake[0]+1,snowflake[1]+1]
+            elif cavemap.get((sand[0]+1,sand[1])) == None:
+                sand = [sand[0]+1,sand[1]]
+            elif cavemap.get((sand[0]+1,sand[1]-1)) == None:
+                sand = [sand[0]+1,sand[1]-1]
+            elif cavemap.get((sand[0]+1,sand[1]+1)) == None:
+                sand = [sand[0]+1,sand[1]+1]
             else:
-                cavemap[(snowflake[0],snowflake[1])] = '*'
+                cavemap[(sand[0],sand[1])] = '*'
                 count += 1
                 falling = False
-                if snowflake == [0, 500]:
+                if sand == [0, 500]:
                     running = False
     return(count)
 
