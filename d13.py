@@ -4,6 +4,7 @@ import sys
 from aocd import data
 from aocd import submit
 import itertools as it
+from ast import literal_eval
 
 testdata = """[1,1,3,1,1]
 [1,1,5,1,1]
@@ -64,8 +65,8 @@ def part1(mydata):
     for p in pairs:
         index += 1
         l, r = p.splitlines()
-        l = eval(l)
-        r = eval(r)
+        l = literal_eval(l)
+        r = literal_eval(r)
         if comp(l,r):
             count += index
     return(count)
@@ -75,7 +76,7 @@ def part2(mydata):
     lines = []
     for l in mydata.splitlines():
         if not l == '':
-            lines.append(eval(l))
+            lines.append(literal_eval(l))
     lines.append([[2]])
     lines.append([[6]])
     for i in range(1, len(lines)): # Insertion Sort
