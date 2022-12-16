@@ -27,12 +27,15 @@ test2 = 56000011
 def dist(x1, y1, x2, y2):
     return abs(x2 - x1) + abs(y2 - y1)
 
+def sortDist(i):
+    return i[2]
+
 
 def part1(mydata):
     cave = defaultdict(None)
     lines = mydata.splitlines()
-    # target = 2000000
-    target = 10
+    target = 2000000
+    # target = 10
     count = 0
     for line in lines:
         Sc, Sr, Bc, Br = [int(x) for x in re.findall(r"[-]?\d+", line)]
@@ -49,74 +52,51 @@ def part1(mydata):
     return count
 
 def part2(mydata):
-    minr = 0
-    # maxr = 21
-    maxr = 4000001
-    rowrange = range(minr,maxr)
-    minc = 0
-    # maxc = 21
-    maxc = 4000001
-    colrange = range(minc,maxc)
-    mult = 4000000
-    sensors = []
-    borders = {}
-    lines = mydata.splitlines()
-    for line in lines:
+    X = R = 0 # x-axis / column
+    Y = C = 1 # y-axis / row
+    MINRC = 0 # minimum r/c value
+    # MAXRC = 21 # maximum r/c value (Test Data)
+    MAXRC = 4000001 # maximum r/c value (Puzzle Input)
+    RCRANGE = range(MINRC,MAXRC) # range 0..max for checking points
+    MULT = 4000000 # frequency multiplier (from puzzle)
+    sensors = [] # empty list to hold sensor info
+    borders = defaultdict(None) # dict for points +1 outside sensor
+    lines = mydata.splitlines() # read input data
+    for line in lines: # parse input data
         Sc, Sr, Bc, Br = [int(x) for x in re.findall(r"[-]?\d+", line)]
-        distance = dist(Sc,Sr,Bc,Br)
-        sensors.append([Sc,Sr,distance])
-        print(sensors[-1])
-        border = dist(Sr, Sc, Br, Bc) + 1
-        for x in range (-border, border):
+        sensors.append([Sr,Sc,dist(Sr,Sc,Br,Bc)]) # add sensor to list
+    sensors.sort(key=sortDist) # sort from large to small distance
+    for s in sensors: # find border points for each sensor
+        border = s[2] + 1
+        Sr = s[R]
+        Sc = s[C]
+        for x in range (-border, border): # Maths
             dc = border - abs(x)
             r = Sr - x
             c1 = Sc + dc
             c2 = Sc - dc
-            if r in rowrange:
-                if c1 in colrange:
+            if r in RCRANGE:
+                if c1 in RCRANGE and borders.get((r,c1)) == None:
                     borders[(r,c1)] = True
-                if c2 in colrange:
+                if c2 in RCRANGE and borders.get((r,c2)) == None:
                     borders[(r,c2)] = True
-            for q in borders.keys():
-                if borders[q]:
-                    for s in sensors:
-                        if dist(q[0],q[1],s[0],s[1]) <= s[2]:
-                            borders[q] = False
-                            break
-        print(len(borders))
-    for p in borders:
-         if borders[p]:
-             return(p[0]*mult+p[1])
-
-def part3(mydata):
-    minr = 0
-    maxr = 21
-    # maxr = 4000001
-    minc = 0
-    maxc = 21
-    # maxc = 4000001
-    mult = 4000000
-    cave = defaultdict(None)
-    lines = mydata.splitlines()
-    count = 0
-    for line in lines:
-        Sc, Sr, Bc, Br = [int(x) for x in re.findall(r"[-]?\d+", line)]
-        cave[(Sr,Sc)] = 'S'
-        cave[(Br,Bc)] = 'B'
-        distance = dist(Sr, Sc, Br, Bc)
-        top = max(Sr - distance,minr)
-        bottom = min(Sr + distance,maxr)
-        left = max(Sc - distance, minc)
-        right = min(Sc + distance, maxc)
-        for tr in range(top, bottom):
-            for tc in range(left,right):
-                if dist(Sr, Sc, tr, tc) <= distance:
-                    if cave.get((tr,tc)) == None:
-                        cave[(tr, tc)] = '#'
-    for r in range(minr, maxr):
-        for c in range(minc, maxc):
-            if cave.get((r,c)) == None:
-                return(c*mult+r)
+        deletepoints = [] # will be used to cleanup points later
+        for q in borders.keys(): # iterate over border cells
+            if borders[q]:
+                for t in sensors:
+                    if dist(q[R],q[C],t[R],t[C]) <= t[2]: # seen by sensor
+                        deletepoints.append(q) # mark to delete
+                        break # break loop
+        for u in deletepoints: # delete flagged points
+            del borders[u]
+        if len(borders) == 1: # if we have only 1 point it is solution
+            for p in borders: # loop to show progress during long run
+                print(p[R],p[C],p[Y]*MULT+p[X])
+                return(p[Y]*MULT+p[X])
+    for p in borders: # should have 1 point remaining
+        if borders[p]:
+            return(p[Y]*MULT+p[X]) # return frequency for point
+    return(None)
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
